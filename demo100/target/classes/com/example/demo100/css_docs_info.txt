@@ -1,0 +1,173 @@
+You can apply CSS (Cascading Style Sheets) to JavaFX applications to style the user interface components, including controls, layouts, and text. This allows you to achieve custom and visually appealing designs for your JavaFX applications. Here are the steps to use CSS with JavaFX:
+
+1. **Create a CSS File**:
+   - First, create a CSS file (e.g., `styles.css`) where you will define your styles. You can create this file in your project's resources directory or any location you prefer.
+
+2. **Define Styles in CSS**:
+   - Open the CSS file and define your styles using CSS syntax. You can apply styles to JavaFX classes, IDs, and Pseudo-classes (e.g., `.button`, `#myLabel`, `:hover`).
+
+   ```css
+   /* Example styles */
+   .button {
+       -fx-background-color: #007bff;
+       -fx-text-fill: white;
+       -fx-font-size: 14px;
+   }
+
+   .label {
+       -fx-font-weight: bold;
+       -fx-font-size: 18px;
+   }
+
+   /* Pseudo-class */
+   .button:hover {
+       -fx-background-color: #0056b3;
+   }
+   ```
+
+3. **Load the CSS File in JavaFX**:
+   - In your JavaFX application, load the CSS file using the `Scene` or `Node` class. You can apply CSS styles at the application level or for specific UI elements.
+
+   ```java
+   // Load the CSS file for the entire scene
+   Scene scene = new Scene(rootNode);
+   scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+   // Load the CSS file for a specific node
+   myButton.getStyleClass().add("button");
+   ```
+
+4. **Apply Styles to UI Elements**:
+   - In your FXML files or Java code, you can apply CSS styles to UI elements by setting their CSS classes or IDs.
+
+   In FXML:
+
+   ```xml
+   <Button text="Click Me!" styleClass="button" />
+   <Label text="Hello, World!" styleClass="label" />
+   ```
+
+   In Java code:
+
+   ```java
+   myButton.getStyleClass().add("button");
+   myLabel.getStyleClass().add("label");
+   ```
+
+5. **Run Your JavaFX Application**:
+   - Build and run your JavaFX application. The styles defined in your CSS file will be applied to the specified UI elements.
+
+Keep in mind that JavaFX provides a set of predefined CSS properties and values for its controls and layout panes, but you can customize and extend the styling by defining your own CSS rules. You can also use CSS to achieve responsive designs, animations, and more in your JavaFX applications.
+
+Differences between Normal CSS and JavaFX CSS --------------->
+
+Yes, the CSS used in JavaFX is similar in syntax and concept to CSS used in HTML. Both CSS variants follow the same basic principles of cascading style sheets and use similar properties and selectors to define styles for elements. However, there are some differences and additional properties specific to JavaFX. Here's a comparison:
+
+**Similarities:**
+
+1. **Selector Syntax**: Both HTML and JavaFX CSS use selectors to target elements. You can use element names, class names, and IDs to select specific elements.
+
+   - HTML: `p`, `.my-class`, `#my-id`
+   - JavaFX: `Button`, `.my-class`, `#my-id`
+
+2. **Property-Value Syntax**: Both use property-value pairs to define styling.
+
+   - HTML: `color: red;`, `font-size: 16px;`
+   - JavaFX: `-fx-text-fill: red;`, `-fx-font-size: 16px;`
+
+3. **Inheritance and Specificity**: Both follow the concepts of inheritance (styles can cascade from parent to child elements) and specificity (more specific selectors override less specific ones).
+
+**Differences:**
+
+1. **Prefix `-fx-`**: In JavaFX CSS, properties typically have the `-fx-` prefix. This helps distinguish JavaFX-specific properties from standard CSS properties.
+
+   - JavaFX: `-fx-background-color: blue;`
+   - HTML: `background-color: blue;`
+
+2. **JavaFX-Specific Properties**: JavaFX introduces several properties and pseudo-classes that are specific to its controls and components. These are not found in HTML and are used to style JavaFX-specific elements.
+
+   - JavaFX: `-fx-padding`, `-fx-background-image`, `-fx-selection-bar`
+   - HTML: N/A
+
+3. **Units**: Both use units like `px` for pixels and `%` for percentages, but JavaFX may also use `em`, `rem`, and others.
+
+4. **Syntax in FXML**: In JavaFX, you often define CSS styles directly in FXML files using the `style` attribute. This is similar to inline styles in HTML.
+
+   - JavaFX in FXML: `<Button style="-fx-background-color: green;">Click Me</Button>`
+   - HTML: `<button style="background-color: green;">Click Me</button>`
+
+In summary, while JavaFX CSS and HTML CSS share many similarities, JavaFX introduces some JavaFX-specific properties and conventions, such as the `-fx-` prefix and JavaFX-specific pseudo-classes. However, if you're familiar with CSS for HTML, you'll find it relatively straightforward to work with JavaFX CSS.
+
+Linking CSS with JavaFX-------------->
+
+To link your CSS file to your FXML file or your main Java class in a JavaFX application, you need to specify the CSS file as a stylesheet for your JavaFX scene. Here's how to do it:
+
+**Option 1: Link CSS in FXML File**
+
+1. In your FXML file, you can specify the CSS file using the `stylesheets` attribute of the root element (usually a layout container like `AnchorPane`, `VBox`, or `Scene`):
+
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+
+   <?import javafx.scene.layout.AnchorPane?>
+   <?import javafx.scene.control.Label?>
+
+   <AnchorPane xmlns="http://javafx.com/javafx"
+               xmlns:fx="http://javafx.com/fxml"
+               fx:controller="com.example.MyController"
+               stylesheets="styles.css"> <!-- Specify your CSS file here -->
+
+       <Label text="Hello, World!" />
+       <!-- Other UI elements go here -->
+
+   </AnchorPane>
+   ```
+
+2. Make sure that the `styles.css` file is in the same directory as your FXML file or provide the correct relative or absolute path to the CSS file.
+
+**Option 2: Link CSS in Java Code**
+
+1. In your Java code (usually in your main class or controller class), create a `Scene` object and add your CSS file to the list of stylesheets:
+
+   ```java
+   Scene = new Scene MyScene(rootNode); // Replace rootNode with your actual root node
+
+   // Specify your CSS file here (you can use getClass().getResource() to get the correct URL)
+   scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+   // Set the scene to the stage and show the stage
+   primaryStage.setScene(scene);
+   primaryStage.show();
+   ```
+
+   Make sure to replace `"styles.css"` with the correct path to your CSS file if it's located in a different directory.
+
+**Option 3: Link CSS in a Parent Container**
+
+If you want to apply CSS to a specific section of your UI, you can add a `styleClass` to a parent container (e.g., `AnchorPane`, `VBox`, etc.) in your FXML file and define the CSS styles for that class in your CSS file. For example:
+
+In your FXML file:
+
+```xml
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.MyController"
+            styleClass="my-container"> <!-- Add a styleClass -->
+
+    <!-- UI elements go here -->
+
+</AnchorPane>
+```
+
+In your CSS file (`styles.css`):
+
+```css
+/* Define styles for the 'my-container' styleClass */
+.my-container {
+    -fx-background-color: light blue;
+    -fx-padding: 10px;
+}
+```
+
+This way, you can apply specific styles to a container and its children without affecting the rest of your UI.
+
